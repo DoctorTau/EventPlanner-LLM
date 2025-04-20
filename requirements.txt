@@ -1,0 +1,5 @@
+fastapi
+uvicorn
+grpcio
+yandexcloud
+python-dotenv
