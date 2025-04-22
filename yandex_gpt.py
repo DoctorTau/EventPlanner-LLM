@@ -5,11 +5,10 @@ import argparse
 
 from models import EventInput, PlanUpdateInput
 
-URL = "https://llm.api.cloud.yandex.net/foundationModels/v1/completion"
-
 
 class YandexGPT:
-    def __init__(self, token, folder_id):
+    def __init__(self, url, token, folder_id):
+        self.url = url
         self.token = token
         self.folder_id = folder_id
 
@@ -19,26 +18,6 @@ class YandexGPT:
         data["completionOptions"] = {"temperature": 0.3, "maxTokens": 1000}
 
         return data
-
-    def test_query(self, user_text):
-        data = {}
-        data["modelUri"] = f"gpt://{self.folder_id}/yandexgpt"
-        data["completionOptions"] = {"temperature": 0.3, "maxTokens": 1000}
-        data["messages"] = [
-            {"role": "system", "text": "Исправь ошибки в тексте."},
-            {"role": "user", "text": f"{user_text}"},
-        ]
-
-        response = requests.post(
-            URL,
-            headers={
-                "Accept": "application/json",
-                "Authorization": f"Bearer {self.token}",
-            },
-            json=data,
-        ).json()
-
-        return self.__extract_llm_output(response)
 
     def generate_plan(self, data: EventInput) -> str:
         yandex_req = self.__get_data()
@@ -94,7 +73,7 @@ class YandexGPT:
 
     def __send_request_to_api(self, yandex_req):
         return requests.post(
-            URL,
+            self.url,
             headers={
                 "Accept": "application/json",
                 "Authorization": f"Bearer {self.token}",
@@ -116,8 +95,8 @@ if __name__ == "__main__":
 
     load_dotenv()
     # read token and folder_id from environment variables or config
+    url = os.environ["YC_URL"]
     token = os.environ["YC_API_KEY"]
     folder_id = os.environ["YC_FOLDER_ID"]
 
-    yandexGpt = YandexGPT(token, folder_id)
-    print(yandexGpt.test_query(args.user_text))
+    yandexGpt = YandexGPT(url, token, folder_id)
