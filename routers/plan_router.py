@@ -22,7 +22,7 @@ redis_client = redis.Redis(
 
 
 def get_yandex_gpt():
-    yc_api_url = os.getenv("YC_API_URL")
+    yc_api_url = os.getenv("YC_URL")
     token = os.getenv("YC_API_KEY")
     folder_id = os.getenv("YC_FOLDER_ID")
     if not yc_api_url or not token or not folder_id:
