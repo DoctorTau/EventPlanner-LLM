@@ -81,9 +81,11 @@ class YandexGPT:
             json=yandex_req,
         ).json()
 
-    def __extract_llm_output(self, result_ouput) -> str:
+    def __extract_llm_output(self, result_output) -> str:
         try:
-            return result_ouput["result"]["alternatives"][0]["message"]["text"]
+            return result_output["result"]["alternatives"][0]["message"]["text"][
+                "plan_text"
+            ]
         except (KeyError, IndexError, TypeError):
             return "Error: Invalid response format"
 
