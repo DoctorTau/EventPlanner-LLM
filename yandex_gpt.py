@@ -83,9 +83,8 @@ class YandexGPT:
 
     def __extract_llm_output(self, result_output) -> str:
         try:
-            return result_output["result"]["alternatives"][0]["message"]["text"][
-                "plan_text"
-            ]
+            print(result_output)
+            return result_output["result"]["alternatives"][0]["message"]["text"]
         except (KeyError, IndexError, TypeError):
             return "Error: Invalid response format"
 
