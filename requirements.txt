@@ -1,5 +1,8 @@
-fastapi
-uvicorn
-grpcio
-yandexcloud
-python-dotenv
+fastapi==0.115.12
+uvicorn==0.34.2
+grpcio==1.71.0
+yandexcloud==0.340.0
+python-dotenv==1.1.0
+requests==2.32.3
+redis==5.2.1
+pydantic==2.11.3
